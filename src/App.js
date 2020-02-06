@@ -1,26 +1,44 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Redirect, withRouter } from 'react-router-dom';
 
-function App() {
-  return (
+class App extends React.Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      username : ''
+    };
+
+    this.handler = this.handler.bind(this);
+    this.login = this.login.bind(this);
+  }
+
+  handler = (event) => {
+    this.setState({
+      [event.target.name] : event.target.value
+    });
+  };
+
+  login = ()=> {
+    console.log("HI + " + this.state.username);
+    this.props.history.push('/chat', {username : this.state.username})
+  }
+  
+  render(){
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>CHAT ROOM</h1>
+      {/* <form> */}
+        <input type="text" name='username' onChange={this.handler} />
+        <button onClick={this.login}>Enter chat room</button>
+      {/* </form> */}
     </div>
   );
 }
 
-export default App;
+}
+
+export default withRouter(App);
